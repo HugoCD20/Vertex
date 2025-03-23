@@ -1,0 +1,59 @@
+//operadores aritmeticos
++-*/%**
+//operadores de asignacion
+= += -= *= /= %=
+//operadores relacionales
+== <= >= < > !=
+//operadores logicos
+YY OO NO
+//operadores unitarios
+++ --
+//identificadores
+identificador
+//literales
+"literarl" 45 31.5
+//delimitadores o separadores
+(){}[];,
+//palabras reservadas
+    var
+    cons
+    falso
+    verdadero
+    ninguno
+    romper
+    siguiente
+    funcion
+    entonces
+    excepto
+    para
+    si
+    en
+    regresar
+    intentar
+    mientras
+    mayusculas
+    minusculas
+    dividir
+    unir
+    agregar
+    insertar
+    eliminar
+    sacar
+    ordenar
+    invertir
+    tamanio
+    claves
+    valores
+    elementos
+    obtener
+    actualizar
+    imprimir
+    entrada
+    abrir
+    redondear
+    minimo
+    maximo
+    leer
+    leerlinea
+    escribir
+    cerrar
