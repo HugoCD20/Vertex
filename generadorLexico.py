@@ -118,13 +118,3 @@ def t_error(t):
 
 # Crear lexer
 lexer = lex.lex()
-
-# Leer archivo
-with open('lenguaje.txt', 'r') as leer:
-    data = leer.read()
-
-lexer.input(data)
-
-# Imprimir tokens
-for tok in lexer:
-    print(tok)

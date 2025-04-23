@@ -177,7 +177,7 @@ def p_metodo(p):
 
 def p_sent_if(p):
     '''sent_if : SI A_PARENTESIS exp_comparacion C_PARENTESIS A_LLAVE sentencia_sent C_LLAVE sent_else'''
-    p[0]={'tipo':'sent_if','exp_comparacion':p[3],'sentencia_sent':p[5],'sent_else':p[7]}
+    p[0]={'tipo':'sent_if','reservada':p[1],'A_parentesis':p[2],'exp_comparacion':p[3],'C_PARENTESIS':p[4],'A_llave':p[5],'sentencia_sent':p[6],'C_LLAVE':p[7],'sent_else':p[8]}
 
 def p_exp_comparacion(p):
     '''exp_comparacion : dato OP_RELACIONAL dato exp_ext
@@ -249,24 +249,6 @@ def p_error(p):
 
 parser = yacc.yacc()
 
-# Función para analizar un archivo
-def analizar_archivo(archivo):
-    with open(archivo, 'r') as f:
-        data = f.read()
-    
-    resultado = parser.parse(data, lexer=lexer)
-    print("\n--- Árbol Sintáctico ---")
-    return resultado
-
-# Si ejecutamos este archivo directamente
-if __name__ == "__main__":
-    import sys
-    
-    if len(sys.argv) > 1:
-        archivo = sys.argv[1]
-    else:
-        archivo = 'lenguaje.txt'  # Archivo por defecto
-    
-    print(f"Analizando archivo: {archivo}")
-    arbol = analizar_archivo(archivo)
-
+def analizar(texto: str):
+    """Devuelve el árbol sintáctico de *texto*."""
+    return parser.parse(texto, lexer=lexer)
