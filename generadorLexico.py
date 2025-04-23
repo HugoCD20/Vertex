@@ -2,69 +2,73 @@ import ply.lex as lex
 
 # Lista de tokens
 tokens = (
-    'OP_RELACIONAL',
-    'OP_ARITMETICO',
-    'OP_ASIGNACION',
-    'OP_LOGICO',
-    'OP_UNITARIO',
-    'IDENTIFICADORES',
-    'PALABRARESERVADA',
-    'LITERALES',
-    'DELIMITADOR',
-    'COMENTARIO',
-    'CARACTERESPECIAL'
+    'OP_RELACIONAL', 'OP_ARITMETICO', 'OP_MULTIPLICATIVO', 'OP_ASIGNACION', 
+    'OP_LOGICO', 'OP_UNITARIO', 'IDENTIFICADORES', 'LITERALES',
+    'COMENTARIO', 'VAR', 'CONS', 'METODO', 
+    'FUNCION', 'ENTONCES', 'EXCEPTO', 'PARA', 'SI',
+    'REGRESAR', 'INTENTAR', 'MIENTRAS','A_PARENTESIS','C_PARENTESIS','A_CORCHETE',
+    'C_CORCHETE','A_LLAVE','C_LLAVE','P_COMA','DOS_P','COMA','PUNTO'
 )
 
-# Palabras reservadas
+# Diccionario de palabras reservadas con sus tokens específicos
 reservadas = {
-    'var': 'PALABRARESERVADA',
-    'cons': 'PALABRARESERVADA',
-    'ninguno': 'PALABRARESERVADA',
-    'romper': 'PALABRARESERVADA',
-    'siguiente': 'PALABRARESERVADA',
-    'funcion': 'PALABRARESERVADA',
-    'entonces': 'PALABRARESERVADA',
-    'excepto': 'PALABRARESERVADA',
-    'para': 'PALABRARESERVADA',
-    'si': 'PALABRARESERVADA',
-    'en': 'PALABRARESERVADA',
-    'regresar': 'PALABRARESERVADA',
-    'intentar': 'PALABRARESERVADA',
-    'mientras': 'PALABRARESERVADA',
-    'mayusculas': 'PALABRARESERVADA',
-    'minusculas': 'PALABRARESERVADA',
-    'dividir': 'PALABRARESERVADA',
-    'unir': 'PALABRARESERVADA',
-    'agregar': 'PALABRARESERVADA',
-    'insertar': 'PALABRARESERVADA',
-    'eliminar': 'PALABRARESERVADA',
-    'sacar': 'PALABRARESERVADA',
-    'ordenar': 'PALABRARESERVADA',
-    'invertir': 'PALABRARESERVADA',
-    'tamanio': 'PALABRARESERVADA',
-    'claves': 'PALABRARESERVADA',
-    'valores': 'PALABRARESERVADA',
-    'elementos': 'PALABRARESERVADA',
-    'obtener': 'PALABRARESERVADA',
-    'actualizar': 'PALABRARESERVADA',
-    'imprimir': 'PALABRARESERVADA',
-    'entrada': 'PALABRARESERVADA',
-    'abrir': 'PALABRARESERVADA',
-    'redondear': 'PALABRARESERVADA',
-    'minimo': 'PALABRARESERVADA',
-    'maximo': 'PALABRARESERVADA',
-    'leer': 'PALABRARESERVADA',
-    'leerlinea': 'PALABRARESERVADA',
-    'escribir': 'PALABRARESERVADA',
-    'cerrar': 'PALABRARESERVADA'
+    'var': 'VAR',
+    'cons': 'CONS',
+    'romper': 'METODO',
+    'siguiente': 'METODO',
+    'funcion': 'FUNCION',
+    'entonces': 'ENTONCES',
+    'excepto': 'EXCEPTO',
+    'para': 'PARA',
+    'si': 'SI',
+    'en': 'METODO',
+    'regresar': 'REGRESAR',
+    'intentar': 'INTENTAR',
+    'mientras': 'MIENTRAS',
+    'mayusculas': 'METODO',
+    'minusculas': 'METODO',
+    'dividir': 'METODO',
+    'unir': 'METODO',
+    'agregar': 'METODO',
+    'insertar': 'METODO',
+    'eliminar': 'METODO',
+    'sacar': 'METODO',
+    'ordenar': 'METODO',
+    'invertir': 'METODO',
+    'tamanio': 'METODO',
+    'claves': 'METODO',
+    'valores': 'METODO',
+    'elementos': 'METODO',
+    'obtener': 'METODO',
+    'actualizar': 'METODO',
+    'imprimir': 'METODO',
+    'entrada': 'METODO',
+    'abrir': 'METODO',
+    'redondear': 'METODO',
+    'minimo': 'METODO',
+    'maximo': 'MAXIMO',
+    'leer': 'METODO',
+    'leerlinea': 'METODO',
+    'escribir': 'METODO',
+    'cerrar': 'METODO'
 }
+t_A_PARENTESIS=r'\('
+t_C_PARENTESIS=r'\)'
+t_A_LLAVE=r'\{'
+t_C_LLAVE=r'\}'
+t_A_CORCHETE=r'\['
+t_C_CORCHETE=r'\]'
+t_P_COMA=r';'
+t_DOS_P=r':'
+t_COMA=r','
+t_PUNTO=r'\.'
 #comentarios
 def t_COMENTARIO(t):
     r'//.*'
     return t
 #literales
 def t_LITERALES(t):
-    r'(verdadero|falso)|\d+(\.\d+)?|".*?"|\'.*?\''
+    r'(verdadero|falso|ninguno)|\d+(\.\d+)?|".*?"|\'.*?\''
     return t
 
 # OPERADORES
@@ -80,8 +84,12 @@ def t_OP_ASIGNACION(t):
     r'\+=|-=|\*=|/=|%=|='
     return t
 
+def t_OP_MULTIPLICATIVO(t):
+    r'\*\*|\*|/|%'
+    return t
+
 def t_OP_ARITMETICO(t):
-    r'\*\*|\+|\-|\*|/|%'
+    r'\+|\-'
     return t
 
 def t_OP_LOGICO(t):
@@ -92,9 +100,6 @@ def t_CARACTERESPECIAL(t):
     r'\.'
     return t
 
-def t_DELIMITADOR(t):
-    r'[\(\)\{\}\[\]\;\:\,]'
-    return t
 
 # Identificadores y palabras reservadas
 def t_IDENTIFICADORES(t):
