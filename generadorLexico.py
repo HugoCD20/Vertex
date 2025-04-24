@@ -1,6 +1,5 @@
 import ply.lex as lex
 
-# Lista de tokens
 tokens = (
     'OP_RELACIONAL', 'OP_ARITMETICO', 'OP_MULTIPLICATIVO', 'OP_ASIGNACION', 
     'OP_LOGICO', 'OP_UNITARIO', 'IDENTIFICADORES', 'LITERALES',
@@ -10,7 +9,6 @@ tokens = (
     'C_CORCHETE','A_LLAVE','C_LLAVE','P_COMA','DOS_P','COMA','PUNTO'
 )
 
-# Diccionario de palabras reservadas con sus tokens específicos
 reservadas = {
     'var': 'VAR',
     'cons': 'CONS',

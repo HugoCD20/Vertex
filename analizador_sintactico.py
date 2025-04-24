@@ -3,24 +3,18 @@ from generadorLexico import tokens, lexer
 
 def p_programa(p):
     '''programa : sentencia_sent'''
-    p[0] = {'tipo': 'programa', 'contenido': p[1]}
+    p[0] = {'programa': p[1]}
 
 def p_sentencia_sent(p):
     '''sentencia_sent : sent_linea P_COMA sentencia_sent
                       | sentencia sentencia_sent
                       | '''
-    if len(p) == 4:  # sent_linea ; sentencia_sent
-        if p[3] is None:
-            p[0] = [p[1]]
-        else:
-            p[0] = [p[1]] + p[3]
-    elif len(p) == 3:  # sentencia sentencia_sent
-        if p[2] is None:
-            p[0] = [p[1]]
-        else:
-            p[0] = [p[1]] + p[2]
-    else:  # épsilon (regla vacía)
-        p[0] = []
+    if len(p) == 4:  
+        p[0] = {'tipo':'sentencia_sent','sent_linea':p[1],'FINAL_LINEA':p[2],'sentencia_sent':p[3]}
+    elif len(p) == 3:
+        p[0] = {'tipo':'sentencia_sent','sentencia':p[1],'sentencia_sent':p[2]}
+    else:
+        p[0] = None
 
 def p_sent_linea(p):
     '''sent_linea : declarar_var
@@ -42,9 +36,9 @@ def p_declarar_var(p):
     '''declarar_var : VAR IDENTIFICADORES
                     | VAR IDENTIFICADORES OP_ASIGNACION valor'''
     if len(p)==3:
-        p[0]={'tipo':'declarar_var','id':p[2]}
+        p[0]={'tipo':'declarar_var','VAR':p[1],'IDENTIFICADORES':p[2]}
     else:
-        p[0]={'tipo':'declarar_var','id':p[2],'valor':p[4]}
+        p[0]={'tipo':'declarar_var','VAR':p[1],'IDENTIFICADORES':p[2],'OP_ASIGNACION':p[3],'valor':p[4]}
 
 def p_valor(p):
     '''valor : expresion
@@ -133,12 +127,10 @@ def p_dato(p):
     '''dato : IDENTIFICADORES
            | LITERALES
            | expresion'''
-    if p[1]=='expresion':
-        p[0]=p[1]
-    else:
-        p[0]=None
+    
+    p[0]=p[1]
 def p_asignacion(p):
-    '''asignacion : IDENTIFICADORES OP_ASIGNACION valor'''
+    '''asignacion : IDENTIFICADORES OP_ASIGNACION valor''';
     p[0]=p[3]
 
 def p_declarar_cons(p):
@@ -154,7 +146,10 @@ def p_atributo(p):
                 | LITERALES atributo_dos
                 | '''
     if len(p)>1:
-        p[0]=p[2]
+        if p[1]=='IDENTIFICADORES':
+            p[0]={'tipo':'atrituto','IDENTIFICADORES':p[1],'atributo_dos':p[2]}
+        else:
+            p[0]={'tipo':'atrituto','LITERALES':p[1],'atributo_dos':p[2]}
     else:
         p[0]=None
 
@@ -170,10 +165,10 @@ def p_atributo_dos(p):
 def p_metodo(p):
     '''metodo : PUNTO METODO A_PARENTESIS atributo C_PARENTESIS
               | METODO A_PARENTESIS atributo C_PARENTESIS'''
-    if len(p)==5:
-        p[0]=p[4]
+    if len(p)==6:
+        p[0]={'tipo':'metodo','PUNTO':p[1],'METODO':p[2],'A_PARENTESIS':p[3],'ATRIBUTO':p[4],'C_PARENTESIS':p[5]}
     else:
-        p[0]=p[3]
+        p[0]={'tipo':'metodo','METODO':p[1],'A_PARENTESIS':p[2],'ATRIBUTO':p[3],'C_PARENTESIS':p[4]}
 
 def p_sent_if(p):
     '''sent_if : SI A_PARENTESIS exp_comparacion C_PARENTESIS A_LLAVE sentencia_sent C_LLAVE sent_else'''
@@ -183,7 +178,7 @@ def p_exp_comparacion(p):
     '''exp_comparacion : dato OP_RELACIONAL dato exp_ext
                        | LITERALES'''
     if len(p)>2:
-        p[0]={'tipo': 'exp_comparacion', 'dato':p[1],'dato':p[3],'exp_ext':p[4]}
+        p[0]={'tipo': 'exp_comparacion', 'dato_1':p[1], 'OP_RELACIONAL':p[2], 'dato_2':p[3],'exp_ext':p[4]}
     else:
         p[0]=p[1]
 

@@ -1,4 +1,1 @@
 var x=0;
-si(x==0){
-    imprimir("si");
-}
