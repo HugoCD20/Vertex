@@ -30,7 +30,7 @@ def p_sentencia(p):
                  | sent_while
                  | sent_fun
                  | sent_try'''
-    p[0] = p[1]
+    p[0] = {'tipo':'sentencia','sentencia':p[1]}
 
 def p_declarar_var(p):
     '''declarar_var : VAR IDENTIFICADORES
@@ -146,10 +146,7 @@ def p_atributo(p):
                 | LITERALES atributo_dos
                 | '''
     if len(p)>1:
-        if p[1]=='IDENTIFICADORES':
-            p[0]={'tipo':'atrituto','IDENTIFICADORES':p[1],'atributo_dos':p[2]}
-        else:
-            p[0]={'tipo':'atrituto','LITERALES':p[1],'atributo_dos':p[2]}
+        p[0]={'tipo':'atrituto','RESULTADO':p[1],'atributo_dos':p[2]}
     else:
         p[0]=None
 
@@ -158,7 +155,7 @@ def p_atributo_dos(p):
                     | COMA LITERALES atributo_dos
                     | '''
     if len(p)>1:
-        p[0]=p[3]
+        p[0]={'tipo':'atrituto','COMA':p[1],'RESULTADO':p[2],'atributo_dos':p[3]}
     else:
         p[0]=None
 
@@ -233,10 +230,10 @@ def p_sent_fun(p):
 
 def p_sent_try(p):
     '''sent_try : INTENTAR A_LLAVE sentencia_sent C_LLAVE EXCEPTO A_LLAVE sentencia_sent C_LLAVE'''
-    p[0]={'tipo':'sent_try','sentencia_sent':p[3],'sentencia_sent':p[6]}
+    p[0]={'tipo':'sent_try','INTENTAR':p[1],'A_LLAVE':p[2],'sentencia_sent':p[3],'C_LLAVE':p[4],'EXCEPTO':p[5],'A_LLAVE2':p[6],'sentencia_sent':p[7],'C_LLAVE2':p[8]}
 
 def p_error(p):
-    if p:
+    if p: 
         print(f"Error de sintaxis en '{p.value}' (línea {p.lineno})")
     else:
         print("Error de sintaxis al final del archivo")
