@@ -1,10 +1,3 @@
-#!/usr/bin/env python3
-"""
-Punto de entrada del compilador.
-Ejemplo de uso:
-    python main.py               # analiza input.txt por defecto
-    python main.py programa.xyz  # analiza el archivo dado
-"""
 import sys
 from pathlib import Path
 from analizador_sintactico import analizar
