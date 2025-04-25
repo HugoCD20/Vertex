@@ -1,0 +1,22 @@
+Asignacion
+-------------------------------------------------------------------------------
+ACTUALIZACION DE LA REGLA P_ASIGNACION
+def p_asignacion(p):
+    '''asignacion : IDENTIFICADORES OP_ASIGNACION expresion'''
+    p[0] = {'tipo': 'asignacion', 'identificador': p[1], 'expresion': p[3]}
+--------------------------------------------------------------------------------
+REGLA DE TERMINO
+def p_termino(p):
+    '''termino : factor term_ext'''
+    p[0] = p[1]
+--------------------------------------------------------------------------------
+REGLA DE FACTOR
+def p_factor(p):
+    '''factor : selec_dato
+             | A_PARENTESIS expresion C_PARENTESIS'''
+    if len(p) == 2:
+        p[0] = p[1]
+    else:
+        p[0] = p[2]
+--------------------------------------------------------------------------------
+
