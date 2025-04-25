@@ -1,1 +1,1 @@
-var x=suma();
+var x=0;
