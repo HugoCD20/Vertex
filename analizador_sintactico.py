@@ -49,11 +49,11 @@ def p_valor(p):
     p[0]=p[1]
 def p_expresion(p):
     '''expresion : termino exp_e'''
-    p[0]=p[1]
+    p[0]={'tipo':'expresion','termino':p[1],'exp_e':p[2]}
 
 def p_termino(p):
     '''termino : factor term_ext'''
-    p[0]=p[1]
+    p[0]={'tipo':'termino','factor':p[1],'term_ext':p[2]}
 
 def p_factor(p):
     '''factor : selec_dato
@@ -61,7 +61,7 @@ def p_factor(p):
     if len(p)==2:
         p[0]=p[1]
     else:
-        p[0]=p[2]
+        p[0]={'tipo':'factor','A_PARENTESIS':p[1],'expresion':p[2],'C_PARENTESIS':p[3]}
 def p_selec_dato(p):
     '''selec_dato : IDENTIFICADORES
                  | LITERALES'''
@@ -71,14 +71,14 @@ def p_term_ext(p):
     '''term_ext : OP_MULTIPLICATIVO factor term_ext
                | '''
     if len(p)>1:
-        p[0]={'tipo':'term_ext','factor':p[2],'term_ext':p[3]}
+        p[0]={'tipo':'term_ext','OP_MULTIPLICATIVO':p[1],'factor':p[2],'term_ext':p[3]}
     else:
         p[0]=None
 def p_exp_e(p):
     '''exp_e : OP_ARITMETICO termino exp_e
             | '''
     if len(p)>1:
-        p[0]={'tipo':'exp_e','termino':p[2],'exp_e':p[3]}
+        p[0]={'tipo':'exp_e','OP_ARITMETICO':p[1],'termino':p[2],'exp_e':p[3]}
     else:
         p[0]=None
     
@@ -91,20 +91,20 @@ def p_estructura_datos(p):
 def p_lista(p):
     '''lista : A_CORCHETE dato dato_extra C_CORCHETE
             | A_CORCHETE C_CORCHETE'''
-    if len(p)==1:
-        p[0]={'tipo':'lista','dato':p[2],'dato_extra':p[3]}
+    if len(p)==5:
+        p[0]={'tipo':'lista','A_CORCHETE':p[1],'dato':p[2],'dato_extra':p[3],'C_CORCHETE':p[4]}
     else:
-        p[0]=None
+        p[0]={'tipo':'lista','A_CORCHETE':p[1],'C_CORCHETE':p[2]}
 
 def p_tupla(p):
     '''tupla : A_PARENTESIS dato dato_extra C_PARENTESIS'''
-    p[0]={'tipo':'tupla','dato':p[2],'dato_extra':p[3]}
+    p[0]={'tipo':'tupla','A_PARENTESIS':p[1],'dato':p[2],'dato_extra':p[3],'C_PARENTESIS':p[4]}
 
 def p_dato_extra(p):
     '''dato_extra : COMA dato dato_extra
                  | '''
     if len(p)>1:
-        p[0]={'tipo':'dato_extra','dato':p[2],'dato_extra':p[3]}
+        p[0]={'tipo':'dato_extra','COMA':p[1],'dato':p[2],'dato_extra':p[3]}
     else:
         p[0]=None
         
@@ -112,15 +112,15 @@ def p_diccionario(p):
     '''diccionario : A_LLAVE LITERALES DOS_P dato element_ext C_LLAVE
                   | A_LLAVE C_LLAVE'''
     if len(p)==7:
-        p[0]={'tipo':'diccionario','dato':p[4],'element_ext':p[5]}
+        p[0]={'tipo':'diccionario','A_LLAVE':p[1],'LITERALES':p[2],'DOS_P':p[3],'dato':p[4],'element_ext':p[5],'C_LLAVE':p[6]}
     else:
-        p[0]=None
+        p[0]={'tipo':'diccionario','A_LLAVE':p[1],'C_LLAVE':p[2]}
 
 def p_element_ext(p):
     '''element_ext : COMA LITERALES DOS_P dato element_ext
                  | '''
     if len(p)>1:
-        p[0]={'tipo':'element-ext','dato':p[4],'element_ext':p[5]}
+        p[0]={'tipo':'element-ext','COMA':p[1],'LITERALES':p[2],'DOS_P':p[3],'dato':p[4],'element_ext':p[5]}
     else:
         p[0]=None
 
@@ -132,7 +132,7 @@ def p_dato(p):
     p[0]=p[1]
 def p_asignacion(p):
     '''asignacion : IDENTIFICADORES OP_ASIGNACION valor''';
-    p[0]=p[3]
+    p[0]={'tipo':'asignacion','IDENTIFICADORES':p[1],'OP_ASIGNACION':p[2],'valor':p[3]}
 
 def p_declarar_cons(p):
     '''declarar_cons : CONS IDENTIFICADORES OP_ASIGNACION LITERALES'''
