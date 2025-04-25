@@ -13,7 +13,7 @@ def leer_archivo(ruta: Path) -> str:
     try:
         return ruta.read_text(encoding="utf-8")
     except FileNotFoundError:
-        sys.exit(f"❌  Archivo no encontrado: {ruta}")
+        sys.exit(f"Archivo no encontrado: {ruta}")
 
 def main() -> None:
     ruta = Path(sys.argv[1]) if len(sys.argv) > 1 else Path("input.txt")

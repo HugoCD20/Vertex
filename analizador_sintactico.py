@@ -44,7 +44,8 @@ def p_valor(p):
     '''valor : expresion
             | estructura_datos 
             | metodo
-            | IDENTIFICADORES'''
+            | IDENTIFICADORES
+            | inst_fun'''
     p[0]=p[1]
 def p_expresion(p):
     '''expresion : termino exp_e'''
@@ -135,11 +136,11 @@ def p_asignacion(p):
 
 def p_declarar_cons(p):
     '''declarar_cons : CONS IDENTIFICADORES OP_ASIGNACION LITERALES'''
-    p[0]=None
+    p[0]={'tipo':'declarar_cons','CONS':p[1],'IDENTIFICADORES':p[2],'OP_ASIGNACION':p[3],'LITERALES':p[4]}
 
 def p_inst_fun(p):
     '''inst_fun : IDENTIFICADORES A_PARENTESIS atributo C_PARENTESIS'''
-    p[0]=p[3]
+    p[0]={'tipo':'inst_fun','IDENTIFICADORES':p[1],'A_PARENTESIS':p[2],'atributo':p[3],'C_PARENTESIS':p[4]}
 
 def p_atributo(p):
     '''atributo : IDENTIFICADORES atributo_dos
