@@ -1,0 +1,80 @@
+Asignación
+-------------------------------------------------------------
+Regla de asignacion
+def p_asignacion(p):
+    '''asignacion : IDENTIFICADORES OP_ASIGNACION expresion'''
+    p[0] = {
+        'tipo': 'asignacion',
+        'identificador': p[1],
+        'operador': p[2],
+        'expresion': p[3]
+    }
+-----------------------------------------------------------------
+Regla para expresiones aritméticas completas
+EXPRESIÓN: combinación de términos
+def p_expresion(p):
+    '''expresion : termino exp_e'''
+    if p[2] is None:
+        p[0] = p[1]
+    else:
+        p[0] = {
+            'op_izq': p[1],
+            'operador': p[2]['operador'],
+            'op_der': p[2]['op_der']
+        }
+
+Extensión de la expresión (suma/resta)
+def p_exp_e(p):
+    '''exp_e : OP_ARITMETICO termino
+             | empty'''
+    if len(p) == 3:
+        p[0] = {
+            'operador': p[1],
+            'op_der': p[2]
+        }
+    else:
+        p[0] = None
+-------------------------------------------------------------------
+Multiplicación/división
+def p_termino(p):
+    '''termino : factor term_ext'''
+    if p[2] is None:
+        p[0] = p[1]
+    else:
+        p[0] = {
+            'op_izq': p[1],
+            'operador': p[2]['operador'],
+            'op_der': p[2]['op_der']
+        }
+
+def p_term_ext(p):
+    '''term_ext : OP_MULTIPLICATIVO factor
+                | empty'''
+    if len(p) == 3:
+        p[0] = {
+            'operador': p[1],
+            'op_der': p[2]
+        }
+    else:
+        p[0] = None
+----------------------------------------------------------------------
+Números, literales, variables
+def p_factor(p):
+    '''factor : selec_dato
+              | A_PARENTESIS expresion C_PARENTESIS'''
+    if len(p) == 2:
+        p[0] = p[1]
+    else:
+        p[0] = p[2]
+----------------------------------------------------------------------
+Valores literales o identificadores
+def p_selec_dato(p):
+    '''selec_dato : IDENTIFICADORES
+                  | LITERALES'''
+    p[0] = p[1]
+----------------------------------------------------------------------
+Regla para vacio
+def p_empty(p):
+    'empty :'
+    p[0] = None
+----------------------------------------------------------------------
